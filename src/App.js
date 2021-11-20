@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react";
 import './App.css';
 import bg from "./background.jpg";
-
-//https://api.github.com/users/rmichak
+import MovieComponent from "./MovieComponent.js"
 
 const movieAPI = "https://heh448mxna.execute-api.us-east-1.amazonaws.com/dev/movie"
 
-function App({login}) {
+
+function App() {
 
   const [data, setData] = useState(null);
-
+  
   useEffect(() => {
     fetch(movieAPI)
       .then((response) => response.json() )
@@ -19,15 +19,19 @@ function App({login}) {
   if (data) {
     console.log(data[0].info.image_url)
     return <div className="App" style={{ backgroundImage:`url(${bg})`,backgroundRepeat:"no-repeat",height:1000,width:"100%" }}>
+
+    
+      {data.map((movie, index) => (
+        <MovieComponent key={index} movie={movie}/>
+      ))}
+    
       
-      <h1>{data[0].title}</h1>
-      <img alt="{data[0].title}" src={data[0].info.image_url}/>      
-      <p>{data[0].info.plot}</p>
       </div>
   } 
 
   return (
     <div className="App" style={{ backgroundImage:`url(${bg})`,backgroundRepeat:"no-repeat",height:1000,width:"100%" }}>
+      
     </div>
  );
 }
